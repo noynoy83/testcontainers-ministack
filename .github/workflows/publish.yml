@@ -26,6 +26,9 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
 
+      - name: Verify (compile + test) before publish
+        run: mvn verify
+
       - name: Publish to Maven Central
         run: mvn deploy -DskipTests
         env:
