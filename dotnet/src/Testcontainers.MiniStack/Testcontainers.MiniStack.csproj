@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <PackageId>Testcontainers.MiniStack</PackageId>
+    <Description>Testcontainers module for MiniStack, a free open-source AWS emulator.</Description>
+    <Authors>MiniStack</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ministackorg/testcontainers-ministack</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ministackorg/testcontainers-ministack</RepositoryUrl>
+    <PackageTags>testcontainers;ministack;aws;localstack;testing</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Testcontainers" Version="4.*" />
+  </ItemGroup>
+</Project>

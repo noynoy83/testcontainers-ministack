@@ -123,6 +123,49 @@ try(MiniStackContainer ministack = new MiniStackContainer()){
 - Works with any AWS SDK (Java, Go, Python, Node.js)
 - Real database containers (RDS, ElastiCache) when Docker socket is mounted
 
+## .NET
+
+[![NuGet](https://img.shields.io/nuget/v/Testcontainers.MiniStack)](https://www.nuget.org/packages/Testcontainers.MiniStack)
+
+### Installation
+
+```
+dotnet add package Testcontainers.MiniStack
+```
+
+### Quick start
+
+```csharp
+await using var ministack = new MiniStackBuilder().Build();
+await ministack.StartAsync();
+
+var s3 = new AmazonS3Client(
+    new BasicAWSCredentials(ministack.AccessKey, ministack.SecretKey),
+    new AmazonS3Config
+    {
+        ServiceURL = ministack.GetConnectionString(),
+        ForcePathStyle = true,
+        AuthenticationRegion = ministack.Region,
+    });
+
+await s3.PutBucketAsync("my-bucket");
+```
+
+### Configuration
+
+```csharp
+var ministack = new MiniStackBuilder("ministackorg/ministack:1.3.42")
+    .WithRegion("eu-west-1")                              // MINISTACK_REGION
+    .WithCredentials("AKIAEXAMPLE000000000", "secret")    // AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY
+    .WithPersistence()                                    // PERSIST_STATE=1 + S3_PERSIST=1
+    .WithImdsV2Required()                                 // MINISTACK_IMDS_V2_REQUIRED=1
+    .Build();
+```
+
+`WithRealInfrastructure()` bind-mounts the host Docker socket so RDS, ElastiCache, ECS, etc. run as real containers
+(same security warning as the Java module applies). Nested containers and volumes are removed when the container is
+disposed.
+
 ## Other languages
 
 Coming when requested. Open an issue or upvote [ministackorg/ministack](https://github.com/ministackorg/ministack/issues/250).
@@ -132,7 +175,7 @@ Coming when requested. Open an issue or upvote [ministackorg/ministack](https://
 | Java     | **Published** on Maven Central |
 | Go       | Planned                        |
 | Python   | Planned                        |
-| .NET     | Planned                        |
+| .NET     | **Ready** (NuGet publish pending) |
 
 ## License
 
